@@ -6,6 +6,7 @@ import com.spotifymc.config.SpotifyConfig;
 import com.spotifymc.lyrics.Lyrics;
 import com.spotifymc.lyrics.LyricsService;
 import com.mojang.math.Axis;
+import org.joml.Matrix4f;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -39,7 +40,7 @@ public final class WorldLyricsRenderer {
         if (!config.isLyricsEnabled() || config.getLyricsStyle() != SpotifyConfig.LyricsStyle.SKY) return;
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
-        if (player == null || mc.level == null || mc.options.hideGui) return;
+        if (player == null || mc.level == null) return;
 
         SpotifyPlaybackState state = playbackManager.getCurrentState();
         if (!state.hasTrack() || state.status() != SpotifyPlaybackState.Status.PLAYING) return;
@@ -59,7 +60,7 @@ public final class WorldLyricsRenderer {
         if (next != null && !next.isBlank()) lines.add(new Line(next, 0xFFB9D7CA, false));
         if (lines.isEmpty()) return;
 
-        Vec3 cameraPos = mc.gameRenderer.getMainCamera().position();
+        Vec3 cameraPos = mc.gameRenderer.getCamera().position();
         Vec3 target = player.getEyePosition().add(player.getViewVector(1.0f).scale(5.0)).add(0, 0.55, 0);
         Vec3 relative = target.subtract(cameraPos);
 
@@ -67,8 +68,8 @@ public final class WorldLyricsRenderer {
         SubmitNodeCollector collector = context.submitNodeCollector();
         pose.pushPose();
         pose.translate(relative.x, relative.y, relative.z);
-        pose.mulPose(Axis.YP.rotationDegrees(-player.getYRot()));
-        pose.mulPose(Axis.XP.rotationDegrees(player.getXRot()));
+        pose.mulPose(new Matrix4f().rotation(Axis.YP.rotationDegrees(-player.getYRot())));
+        pose.mulPose(new Matrix4f().rotation(Axis.XP.rotationDegrees(player.getXRot())));
         pose.scale(-0.018f, -0.018f, 0.018f);
 
         float widest = 0;
