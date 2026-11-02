@@ -60,7 +60,7 @@ public final class WorldLyricsRenderer {
         if (next != null && !next.isBlank()) lines.add(new Line(next, 0xFFB9D7CA, false));
         if (lines.isEmpty()) return;
 
-        Vec3 cameraPos = player.getEyePosition();
+        Vec3 cameraPos = mc.gameRenderer.getCamera().position();
         Vec3 target = player.getEyePosition().add(player.getViewVector(1.0f).scale(5.0)).add(0, 0.55, 0);
         Vec3 relative = target.subtract(cameraPos);
 
@@ -86,9 +86,11 @@ public final class WorldLyricsRenderer {
         float panelHeight = lines.size() * rowHeight + 16;
         float left = -panelWidth / 2;
         float top = -panelHeight / 2;
-        collector.submitTextBackground(pose, left, top, left + panelWidth, top + panelHeight,
-                (int) (Math.clamp(config.getHudOpacity(), 0.25f, 1.0f) * 190) << 24 | 0x0010151A,
-                Font.DisplayMode.NORMAL, 0x00F000F0);
+        if (config.isLyricsBackgroundEnabled()) {
+            collector.submitTextBackground(pose, left, top, left + panelWidth, top + panelHeight,
+                    (int) (Math.clamp(config.getHudOpacity(), 0.25f, 1.0f) * 190) << 24 | 0x0010151A,
+                    Font.DisplayMode.NORMAL, 0x00F000F0);
+        }
 
         float y = top + 9;
         for (int i = 0; i < lines.size(); i++) {

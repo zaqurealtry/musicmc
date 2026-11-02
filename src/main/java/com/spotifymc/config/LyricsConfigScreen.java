@@ -104,6 +104,13 @@ public class LyricsConfigScreen extends Screen {
         }).bounds(right, y, colWidth, 20).build());
 
         y += rowHeight;
+        this.addRenderableWidget(Button.builder(getBackgroundText(), btn -> {
+            config.setLyricsBackgroundEnabled(!config.isLyricsBackgroundEnabled());
+            config.save();
+            btn.setMessage(getBackgroundText());
+        }).bounds(centerX - colWidth / 2, y, colWidth, 20).build());
+
+        y += rowHeight;
         this.addRenderableWidget(Button.builder(Component.literal("Wrong lyrics? Fetch again"), btn -> {
             playbackManager.getLyricsService().clearCache();
             playbackManager.pollOnce();
@@ -134,6 +141,10 @@ public class LyricsConfigScreen extends Screen {
 
     private Component getScaleText() {
         return Component.literal(String.format("Subtitle Size: %.1fx", config.getLyricsScale()));
+    }
+
+    private Component getBackgroundText() {
+        return Component.literal("Lyrics Background: " + (config.isLyricsBackgroundEnabled() ? "§aON" : "§cOFF"));
     }
 
     private Component getArtLookupText() {

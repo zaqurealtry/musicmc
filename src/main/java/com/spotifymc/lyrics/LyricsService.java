@@ -114,8 +114,8 @@ public class LyricsService {
         executor.execute(() -> {
             Result result;
             try {
-                Lyrics lyrics = lookup(title, artist, album, durationMs);
-                if (lyrics == null) lyrics = lookupLocal(title, artist);
+                Lyrics lyrics = lookupLocal(title, artist);
+                if (lyrics == null) lyrics = lookup(title, artist, album, durationMs);
                 result = new Result(key, lyrics == null ? Status.NOT_FOUND : Status.FOUND, lyrics);
                 cache.put(key, result);
             } catch (Exception e) {
@@ -164,20 +164,7 @@ public class LyricsService {
     // ----------------------------------------------------------------------------------------
 
     private Lyrics lookup(String title, String artist, String album, long durationMs) throws IOException, InterruptedException {
-        // 1. Exact signature match (fast and accurate when we have all four fields).
-        if (album != null && !album.isBlank() && durationMs > 0) {
-            String url = API + "/get?track_name=" + enc(title) + "&artist_name=" + enc(artist)
-                    + "&album_name=" + enc(album) + "&duration=" + Math.round(durationMs / 1000.0);
-            HttpResponse<String> resp = get(url);
-            if (resp.statusCode() == 200) {
-                Lyrics l = toLyrics(JsonParser.parseString(resp.body()).getAsJsonObject());
-                if (l != null) return l;
-            } else if (resp.statusCode() != 404) {
-                throw new IOException("LRCLIB returned HTTP " + resp.statusCode());
-            }
-        }
-
-        // 2. Search with the names as reported, then 3. with "(feat. ...)" / " - Remastered" etc. removed.
+        // Search once first; local files are checked before this network request.
         Lyrics found = search(title, artist, title, artist, durationMs);
         if (found != null) return found;
 

@@ -85,9 +85,11 @@ public class LyricsRenderer {
         int x = cardX;
         int y = below ? cardY + cardHeight + 2 : cardY - height - 2;
 
-        context.fill(x, y, x + cardWidth, y + height, bgColor);
-        context.fill(x, y, x + 3, y + height, accentColor);
-        context.fill(x + 3, y, x + cardWidth, y + 1, 0x2AFFFFFF);
+        if (config.isLyricsBackgroundEnabled()) {
+            context.fill(x, y, x + cardWidth, y + height, bgColor);
+            context.fill(x, y, x + 3, y + height, accentColor);
+            context.fill(x + 3, y, x + cardWidth, y + 1, 0x2AFFFFFF);
+        }
 
         int rowY = y + PADDING;
         boolean markerDrawn = false;
@@ -146,7 +148,7 @@ public class LyricsRenderer {
         for (Row row : rows) {
             int w = font.width(row.text());
             int x = sw / 2 - w / 2;
-            context.fill(x - 4, y - 2, x + w + 4, y + ROW_HEIGHT, bg);
+            if (config.isLyricsBackgroundEnabled()) context.fill(x - 4, y - 2, x + w + 4, y + ROW_HEIGHT, bg);
             context.text(font, row.text(), x, y, row.color());
             y += ROW_HEIGHT + 2;
         }
@@ -184,8 +186,8 @@ public class LyricsRenderer {
         for (Row row : rows) {
             int w = font.width(row.text());
             int x = sw / 2 - w / 2;
-            context.fill(x - 14, y - 6, x + w + 14, y + 14, bg);
-            if (row.current()) {
+            if (config.isLyricsBackgroundEnabled()) context.fill(x - 14, y - 6, x + w + 14, y + 14, bg);
+            if (row.current() && config.isLyricsBackgroundEnabled()) {
                 context.fill(x - 8, y - 3, x - 5, y + 11, 0xFF1DB954);
             }
             context.text(font, row.text(), x, y, row.color());
@@ -224,8 +226,8 @@ public class LyricsRenderer {
             int w = font.width(row.text());
             int x = sw / 2 - w / 2;
             int alpha = (int) (Math.clamp(opacity, 0.2f, 1.0f) * (row.current() ? 0.68f : 0.42f) * 255);
-            context.fill(x - 10, y - 4, x + w + 10, y + 13, (alpha << 24) | 0x0010151A);
-            if (row.current()) context.fill(x - 7, y - 1, x - 4, y + 10, 0xFF1DB954);
+            if (config.isLyricsBackgroundEnabled()) context.fill(x - 10, y - 4, x + w + 10, y + 13, (alpha << 24) | 0x0010151A);
+            if (row.current() && config.isLyricsBackgroundEnabled()) context.fill(x - 7, y - 1, x - 4, y + 10, 0xFF1DB954);
             context.text(font, row.text(), x, y, row.color());
             y += 17;
         }

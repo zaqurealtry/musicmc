@@ -89,6 +89,7 @@ public class SpotifyConfig {
     private int lyricsUpcomingLines = 1;
     private int lyricsOffsetMs = 0;
     private float lyricsScale = 1.0f;
+    private boolean lyricsBackgroundEnabled = false;
 
     private transient Path configFile;
 
@@ -295,6 +296,10 @@ public class SpotifyConfig {
     public void setLyricsOffsetMs(int offsetMs) {
         this.lyricsOffsetMs = Math.clamp(offsetMs, -5000, 5000);
     }
+
+    public boolean isLyricsBackgroundEnabled() { return lyricsBackgroundEnabled; }
+
+    public void setLyricsBackgroundEnabled(boolean enabled) { this.lyricsBackgroundEnabled = enabled; }
 
     public float getLyricsScale() {
         return Math.clamp(lyricsScale, 0.5f, 2.0f);
