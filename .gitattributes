@@ -1,2 +1,17 @@
-# Auto detect text files and perform LF normalization
+# Auto-detect text files and perform LF normalization
 * text=auto
+
+# Source code & configs
+*.java text diff=java eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.gradle text eol=lf
+*.properties text eol=lf
+
+# Gradle wrapper script (MUST be LF on Linux/macOS)
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+# Binary assets
+*.png binary
+*.jar binary

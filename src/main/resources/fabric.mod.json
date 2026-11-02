@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "spotifymc",
+  "version": "${version}",
+  "name": "Music MC",
+  "description": "A lightweight client-side now-playing HUD with synced lyrics for Spotify and Apple Music. Works with no login by reading your computer's media controls; the Spotify Web API is optional.",
+  "authors": [
+    "jkortis"
+  ],
+  "contact": {
+    "homepage": "https://gitea.jadonsandbox.com/jkortis/spotify-mc",
+    "sources": "https://gitea.jadonsandbox.com/jkortis/spotify-mc",
+    "issues": "https://gitea.jadonsandbox.com/jkortis/spotify-mc/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/spotifymc/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.spotifymc.SpotifyMod"
+    ],
+    "modmenu": [
+      "com.spotifymc.config.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

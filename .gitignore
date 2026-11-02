@@ -1,0 +1,37 @@
+# Gradle & Build Artifacts
+.gradle/
+build/
+bin/
+out/
+
+# Built JARs and Distribution Artifacts (Do NOT commit mod JARs into git)
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+MOD_JAR/
+
+# Minecraft Run Directory & Logs (Do NOT commit client logs or crash reports)
+run/
+logs/
+crash-reports/
+*.log
+*.log.gz
+
+# Spotify MC Credentials & Sensitive Configuration
+# NEVER commit these files to version control!
+**/config/spotifymc/credentials.json
+**/config/spotifymc/*credentials*
+**/config/spotifymc/*.token
+*.env
+*.key
+
+# IDE & Editor Files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS Specific
+.DS_Store
+Thumbs.db
