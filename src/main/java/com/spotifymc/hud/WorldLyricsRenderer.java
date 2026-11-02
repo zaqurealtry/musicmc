@@ -60,7 +60,7 @@ public final class WorldLyricsRenderer {
         if (next != null && !next.isBlank()) lines.add(new Line(next, 0xFFB9D7CA, false));
         if (lines.isEmpty()) return;
 
-        Vec3 cameraPos = mc.gameRenderer.getCamera().position();
+        Vec3 cameraPos = player.getEyePosition();
         Vec3 target = player.getEyePosition().add(player.getViewVector(1.0f).scale(5.0)).add(0, 0.55, 0);
         Vec3 relative = target.subtract(cameraPos);
 
